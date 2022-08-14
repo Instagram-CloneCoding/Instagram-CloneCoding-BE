@@ -18,8 +18,7 @@ public class Post extends TimeStamped{
 
     @Lob
     private String content;
-
-    private String imageUrl;
+    
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
