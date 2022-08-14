@@ -18,6 +18,9 @@ public class Post extends TimeStamped{
 
     @Lob
     private String content;
+    
+    @OneToMany(mappedBy = "post")
+    private List<PostImage> postImages = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
