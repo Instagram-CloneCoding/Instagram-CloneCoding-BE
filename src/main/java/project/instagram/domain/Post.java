@@ -1,8 +1,6 @@
 package project.instagram.domain;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -10,7 +8,9 @@ import java.util.List;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Post extends TimeStamped{
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "POST_ID")
@@ -18,6 +18,8 @@ public class Post extends TimeStamped{
 
     @Lob
     private String content;
+
+    private String imageUrl;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
