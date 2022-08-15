@@ -19,7 +19,9 @@ public class PostService {
 
     public ResponseEntity regist(PostRequestDto postRequestDto){
         if(postRequestDto.getImageList()==null) throw new ImageNotExistException("이미지를 넣어주세요");
-        if(!("exe"==JPG && "exe"==PNG)) throw new ImageNotMatchException("이미지 파일이 아닙니다");
+        String filename = postRequestDto.getImageList().get(0).getImageFile().getOriginalFilename();
+        String[] a =filename.split("\\.");
+        if(!(a[a.length-1].equals(JPG)||a[a.length-1].equals(PNG)))throw new ImageNotMatchException("이미지 파일이 아닙니다");
         return new ResponseEntity(postRequestDto,HttpStatus.OK);
     }
 }

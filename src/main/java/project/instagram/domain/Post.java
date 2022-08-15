@@ -20,16 +20,21 @@ public class Post extends TimeStamped{
     private String content;
 
     @OneToMany(mappedBy = "post")
-    private List<PostImage> postImages = new ArrayList<>();
+    private List<PostImage> postImages;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
     private User user;
 
     @OneToMany(mappedBy = "post")
-    private List<HeartPost> heartPosts = new ArrayList<>();
+    private final List<HeartPost> heartPosts = new ArrayList<>();
 
     @OneToMany(mappedBy = "post")
-    private List<Comment> comments = new ArrayList<>();
+    private final List<Comment> comments = new ArrayList<>();
+
+    public void insertImage(List<PostImage> postImageList){
+        this.postImages = postImageList;
+    }
+
 
 }
