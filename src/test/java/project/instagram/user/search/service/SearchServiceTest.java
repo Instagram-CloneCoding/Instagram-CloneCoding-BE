@@ -1,5 +1,6 @@
 package project.instagram.user.search.service;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -31,6 +32,11 @@ class SearchServiceTest {
         }
     }
 
+    @AfterEach
+    void after() {
+        userRepository.deleteAll();
+    }
+
     @DisplayName("키워드 조회 서비스")
     @Test
     void search() {
@@ -46,7 +52,6 @@ class SearchServiceTest {
         assertThat(search.getUserInfo().get(0).getUsername()).isEqualTo("bbb");
         assertThat(search.getTotalPage()).isEqualTo(20);
         assertThat(search.getCurrentPage()).isEqualTo(12);
-
     }
 
     private User insertUser(String nickname, String username) {

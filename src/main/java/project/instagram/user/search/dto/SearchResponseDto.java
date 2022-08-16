@@ -7,7 +7,6 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 
 @Getter
-@ToString
 public class SearchResponseDto {
     private int currentPage;
     private int totalPage;
