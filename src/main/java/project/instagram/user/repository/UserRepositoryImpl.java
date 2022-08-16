@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import project.instagram.aop.annotation.Trace;
 import project.instagram.user.search.dto.SearchResponseDto;
 import project.instagram.user.search.dto.UserInfo;
 
@@ -19,6 +20,7 @@ import static project.instagram.domain.QUser.user;
 public class UserRepositoryImpl implements UserRepositoryCustom{
     private final JPAQueryFactory queryFactory;
 
+    @Trace
     @Override
     public Page<UserInfo> searchKeyword(String keyword, Pageable pageable) {
         List<UserInfo> content = queryFactory
