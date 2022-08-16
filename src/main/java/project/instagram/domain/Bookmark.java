@@ -1,6 +1,7 @@
 package project.instagram.domain;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -22,4 +23,10 @@ public class Bookmark {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "POST_ID")
     private Post post;
+
+    @Builder
+    public Bookmark(User user, Post post) {
+        this.user = user;
+        this.post = post;
+    }
 }
