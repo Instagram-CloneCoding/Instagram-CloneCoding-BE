@@ -4,4 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import project.instagram.domain.User;
 
 public interface UserRepository extends JpaRepository<User,Long>,UserRepositoryCustom {
+    //test
+    User findByUsername(String follow);
 }

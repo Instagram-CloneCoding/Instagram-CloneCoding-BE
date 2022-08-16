@@ -1,9 +1,6 @@
 package project.instagram.domain;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -17,10 +14,16 @@ public class Follow {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "USER_ID")
-    private User follow; // 나
+    @JoinColumn(name = "FROM_USER_ID")
+    private User fromUser; // 팔로우 하는 사람
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "FOLLOWER_ID")
-    private User follower; // 날 팔로우 한 사람
+    @JoinColumn(name = "TO_USER_ID")
+    private User toUser; // 팔로우 당하는 사람
+
+    @Builder
+    public Follow(User fromUser, User toUser) {
+        this.fromUser = fromUser;
+        this.toUser = toUser;
+    }
 }
