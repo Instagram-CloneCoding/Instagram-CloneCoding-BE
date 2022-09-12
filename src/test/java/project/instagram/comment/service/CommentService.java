@@ -42,7 +42,8 @@ public class CommentService {
         Post post = postService.getPostByPostId(postId);
         Comment parentComment = getCommentByCommentId(parentCommentId);
         if(!isContentExists(commentRequestDto)) throw new NoContentException("댓글을 입력해주세요.");
-        parentComment.getChildren().add(new Comment(commentRequestDto));
+        Comment childComment = new Comment(commentRequestDto,parentComment);
+        parentComment.getChildren().add(childComment);
         return ResponseEntity.ok(true);
     }
 

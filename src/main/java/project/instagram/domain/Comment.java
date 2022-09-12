@@ -40,6 +40,10 @@ public class Comment extends TimeStamped{
     public Comment(CommentRequestDto commentRequestDto){
         this.content = commentRequestDto.getContent();
     }
+    public Comment(CommentRequestDto commentRequestDto,Comment parentComment){
+        this.content = commentRequestDto.getContent();
+        this.parent = parentComment;
+    }
     @Builder
     public Comment(String content){
         this.content = content;
