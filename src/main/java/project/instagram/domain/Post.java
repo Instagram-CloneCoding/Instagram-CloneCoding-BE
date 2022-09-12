@@ -1,6 +1,7 @@
 package project.instagram.domain;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -10,7 +11,7 @@ import java.util.List;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class Post extends TimeStamped{
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "POST_ID")
@@ -28,5 +29,10 @@ public class Post extends TimeStamped{
 
     @OneToMany(mappedBy = "post")
     private List<Comment> comments = new ArrayList<>();
+
+    @Builder
+    public Post(String content){
+        this.content = content;
+    }
 
 }
