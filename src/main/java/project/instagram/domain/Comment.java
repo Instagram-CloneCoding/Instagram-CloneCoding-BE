@@ -1,9 +1,7 @@
 package project.instagram.domain;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import project.instagram.comment.dto.CommentRequestDto;
 
 
 import javax.persistence.*;
@@ -12,13 +10,13 @@ import java.util.List;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class Comment extends TimeStamped{
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name ="COMMENT_ID")
     private Long id;
 
-    @Lob
+    @Column(length = 1000)
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -38,4 +36,12 @@ public class Comment extends TimeStamped{
 
     @OneToMany(mappedBy = "parent",cascade = CascadeType.ALL)
     private List<Comment> children = new ArrayList<>();
+
+    public Comment(CommentRequestDto commentRequestDto){
+        this.content = commentRequestDto.getContent();
+    }
+    @Builder
+    public Comment(String content){
+        this.content = content;
+    }
 }
