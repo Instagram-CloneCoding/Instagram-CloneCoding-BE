@@ -91,7 +91,6 @@ public class RegisterRecommentTest {
         @Test
         @DisplayName("Too Long Content_Fail")
         void TooLongContent() {
-
         }
     }
 
@@ -111,6 +110,7 @@ public class RegisterRecommentTest {
                     postService.getPostByPostId(post.getId()).getComments().get(0).getChildren().get(0).getParent().getContent());
         }
     }
+
 }
 
 
