@@ -1,5 +1,7 @@
 package project.instagram.comment.service;
 
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.Data;
@@ -41,17 +43,18 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom{
                 .from(comment)
                 .leftJoin(comment.heartComments,heartComment)
 //                .on(heartComment.comment.eq(comment))
-                .join(comment.user,user)
+                .leftJoin(comment.user,user)
 //                .on(comment.user.eq(user))
-                .where(comment.parent.id.eq(commentId).and(heartComment.user.eq(loginUser)))
+//                .where(comment.parent.id.eq(commentId).and(heartComment.user.eq(loginUser)))
+                .orderBy(new OrderSpecifier(Order.DESC,comment.id))
                 .offset(3*page)
                 .limit(3)
                 .fetch();
-//        int totalRecommentcnt = (int) queryFactory.select(comment)
-//                .from(comment)
-//                .where(comment.parent.id.eq(commentId))
-//                .stream().count();
-        return new RecommentListResponseDto(commentId,0,commentList);
+        int totalRecommentcnt = (int) queryFactory.select(comment)
+                .from(comment)
+                .where(comment.parent.id.eq(commentId))
+                .stream().count();
+        return new RecommentListResponseDto(commentId,totalRecommentcnt,commentList);
     }
 
 }

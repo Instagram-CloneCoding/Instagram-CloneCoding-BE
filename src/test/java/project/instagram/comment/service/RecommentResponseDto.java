@@ -31,6 +31,21 @@ public class RecommentResponseDto {
         return this.content;
     }
 
+    public Long getCommentId() {
+        return commentId;
+    }
+
+    public boolean isMyHeart() {
+        return myHeart;
+    }
+
+    public String getCreatedTime() {
+        return createdTime;
+    }
+
+    public String getUsername() {
+        return username;
+    }
 
     private boolean isHeart(Long myHeart){
         return myHeart==null;

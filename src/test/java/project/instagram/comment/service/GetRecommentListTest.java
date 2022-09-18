@@ -10,6 +10,7 @@ import project.instagram.comment.dto.CommentRequestDto;
 import project.instagram.domain.Comment;
 import project.instagram.domain.Post;
 import project.instagram.domain.User;
+import project.instagram.exception.customexception.CommentNotFoundException;
 import project.instagram.exception.customexception.NoContentException;
 import project.instagram.post.PostRepository;
 
@@ -23,6 +24,7 @@ public class GetRecommentListTest {
     private Post post1;
     private Comment comment1;
     private User user1;
+    private Comment childComment;
     private CommentRequestDto commentRequestDto;
     @Autowired
     private PostRepository postRepository;
@@ -58,11 +60,16 @@ public class GetRecommentListTest {
                 .content("안녕하세요")
                 .build();
 
-        commentService.registerRecomment(post1.getId(), comment1.getId(), commentRequestDto);
-        commentService.registerRecomment(post1.getId(), comment1.getId(), commentRequestDto);
-        commentService.registerRecomment(post1.getId(), comment1.getId(), commentRequestDto);
-        commentService.registerRecomment(post1.getId(), comment1.getId(), commentRequestDto);
-        commentService.registerRecomment(post1.getId(), comment1.getId(), commentRequestDto);
+        for(int i=0; i<5; i++){
+            commentRequestDto = new CommentRequestDto().builder()
+                    .content("안녕하세요" +i)
+                    .build();
+            childComment = new Comment(commentRequestDto);
+            childComment = commentRepository.save(childComment);
+
+            commentService.registerRecomment(post1.getId(), comment1.getId(), commentRequestDto);
+
+        }
     }
 
     @Nested
@@ -72,8 +79,10 @@ public class GetRecommentListTest {
         @Test
         @DisplayName("ParrentComment_Not_Exist")
         void parrentComment_Not_Exist() {
-            Assertions.assertThrows(NoContentException.class,
-                    ()-> commentService.getRecommentList(comment1.getId()+1, 0, user1));
+            System.out.println(comment1.getChildren().size()+"===================");
+
+            Assertions.assertThrows(CommentNotFoundException.class,
+                    ()-> commentService.getRecommentList(comment1.getId()+100, 0, user1));
         }
     }
     @Nested
@@ -82,10 +91,9 @@ public class GetRecommentListTest {
         @Test
         void get_success() {
             ResponseEntity<RecommentListResponseDto> result = commentService.getRecommentList(comment1.getId(), 0, user1);
-
             assertEquals(result.getStatusCode(), HttpStatus.OK);
-            assertEquals(result.getBody().getCommentList().get(0).getContent(),
-                    commentRequestDto.getContent());
+            assertEquals(childComment.getContent(),
+                    result.getBody().getCommentList().get(0).getContent());
         }
 
     }

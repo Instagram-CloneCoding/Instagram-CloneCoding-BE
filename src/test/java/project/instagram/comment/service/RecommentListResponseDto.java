@@ -20,4 +20,12 @@ public class RecommentListResponseDto {
     public List<RecommentResponseDto> getCommentList(){
         return this.commentList;
     }
+
+    public Long getParentId() {
+        return parentId;
+    }
+
+    public int getTotalRecommentcnt() {
+        return totalRecommentcnt;
+    }
 }

@@ -44,11 +44,13 @@ public class CommentService {
         if(!isContentExists(commentRequestDto)) throw new NoContentException("댓글을 입력해주세요.");
         Comment childComment = new Comment(commentRequestDto,parentComment);
         parentComment.getChildren().add(childComment);
+        System.out.println(parentComment.getChildren().size());
         return ResponseEntity.ok(true);
     }
 
     public ResponseEntity<RecommentListResponseDto> getRecommentList(Long parrentCommentId,int page, User user){
-        return ResponseEntity.ok(new RecommentListResponseDto());
+        getCommentByCommentId(parrentCommentId);
+        return ResponseEntity.ok(commentRepository.getRecommentList(parrentCommentId,page,user));
     }
 
     private Comment getCommentByCommentId(Long parentCommentId) {
