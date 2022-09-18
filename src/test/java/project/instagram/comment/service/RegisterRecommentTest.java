@@ -1,14 +1,9 @@
 package project.instagram.comment.service;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import project.instagram.comment.dto.CommentRequestDto;
-import project.instagram.comment.repository.CommentRepository;
 import project.instagram.domain.Comment;
 import project.instagram.domain.Post;
 import project.instagram.exception.customexception.CommentNotFoundException;

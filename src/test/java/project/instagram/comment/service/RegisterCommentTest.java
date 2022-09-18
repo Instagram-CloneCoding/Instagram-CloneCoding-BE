@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
 import project.instagram.comment.dto.CommentRequestDto;
-import project.instagram.comment.repository.CommentRepository;
 import project.instagram.domain.Post;
 import project.instagram.exception.customexception.NoContentException;
 import project.instagram.exception.customexception.PostNotFoundException;
@@ -92,6 +91,7 @@ public class RegisterCommentTest {
                     commentService.registerComment(post.getId(), commentRequestDto));
             assertEquals(foundPost.getComments().get(0).getContent(), commentRequestDto.getContent());
         }
+
 
         @DisplayName("Too Long Content")
         @Test

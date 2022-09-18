@@ -1,9 +1,6 @@
 package project.instagram.domain;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -11,7 +8,8 @@ import java.util.List;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
+@Table(name = "member")
 public class User {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "USER_ID")
@@ -25,17 +23,22 @@ public class User {
     private String profileImage;
     private String introduction;
 
-    @OneToMany(mappedBy = "user")
-    private List<Post> posts = new ArrayList<>();
+//    @OneToMany(mappedBy = "user")
+//    private List<Post> posts = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "follow") // 날 팔로우 한 사람
+//    private List<Follow> follows = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "follower") // 내가 팔로우 한 사람들
+//    private List<Follow> followers = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "user")
+//    private List<Bookmark> bookmarks = new ArrayList<>();
 
-    @OneToMany(mappedBy = "follow") // 날 팔로우 한 사람
-    private List<Follow> follows = new ArrayList<>();
 
-    @OneToMany(mappedBy = "follower") // 내가 팔로우 한 사람들
-    private List<Follow> followers = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user")
-    private List<Bookmark> bookmarks = new ArrayList<>();
-
-
+    @Builder
+    public User(String username, String nickname) {
+        this.username = username;
+        this.nickname = nickname;
+    }
 }

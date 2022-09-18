@@ -4,9 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import project.instagram.comment.dto.CommentRequestDto;
-import project.instagram.comment.repository.CommentRepository;
 import project.instagram.domain.Comment;
 import project.instagram.domain.Post;
+import project.instagram.domain.User;
 import project.instagram.exception.customexception.CommentNotFoundException;
 import project.instagram.exception.customexception.NoContentException;
 import project.instagram.post.PostRepository;
@@ -45,6 +45,10 @@ public class CommentService {
         Comment childComment = new Comment(commentRequestDto,parentComment);
         parentComment.getChildren().add(childComment);
         return ResponseEntity.ok(true);
+    }
+
+    public ResponseEntity<RecommentListResponseDto> getRecommentList(Long parrentCommentId,int page, User user){
+        return ResponseEntity.ok(new RecommentListResponseDto());
     }
 
     private Comment getCommentByCommentId(Long parentCommentId) {

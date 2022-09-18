@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 public class Comment extends TimeStamped{
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name ="COMMENT_ID")
     private Long id;
 
@@ -46,8 +46,14 @@ public class Comment extends TimeStamped{
         this.parent = parentComment;
     }
 
+//    @Builder
+//    public Comment(String content){
+//        this.content = content;
+//    }
+
     @Builder
-    public Comment(String content){
+    public Comment(String content,User user){
         this.content = content;
+        this.user = user;
     }
 }
