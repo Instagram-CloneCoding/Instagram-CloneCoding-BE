@@ -1,25 +1,29 @@
-package project.instagram.comment.service;
+package project.instagram.comment.service.test;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import project.instagram.comment.dto.CommentRequestDto;
+import project.instagram.comment.repository.CommentRepository;
+import project.instagram.comment.service.CommentService;
+import project.instagram.comment.dto.RecommentListResponseDto;
+import project.instagram.comment.service.UserRepository;
 import project.instagram.domain.Comment;
 import project.instagram.domain.Post;
 import project.instagram.domain.User;
 import project.instagram.exception.customexception.CommentNotFoundException;
-import project.instagram.exception.customexception.UserNotCorrectException;
 import project.instagram.post.PostRepository;
 
 import javax.transaction.Transactional;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 @SpringBootTest
 @Transactional
-public class DeleteCommentTest {
+public class GetRecommentListTest {
     private Post post1;
     private Comment comment1;
     private User user1;
@@ -33,7 +37,8 @@ public class DeleteCommentTest {
     private CommentRepository commentRepository;
     @Autowired
     private CommentService commentService;
-
+    @Autowired
+    private JPAQueryFactory queryFactory;
 
 
     @BeforeEach
@@ -62,8 +67,8 @@ public class DeleteCommentTest {
             commentRequestDto = new CommentRequestDto().builder()
                     .content("안녕하세요" +i)
                     .build();
-//            childComment = new Comment(commentRequestDto,comment1);
-//            childComment = commentRepository.save(childComment);
+            childComment = new Comment(commentRequestDto);
+            childComment = commentRepository.save(childComment);
 
             commentService.registerRecomment(post1.getId(), comment1.getId(), commentRequestDto);
 
@@ -71,36 +76,28 @@ public class DeleteCommentTest {
     }
 
     @Nested
-    @DisplayName("Delete_Fail")
-    class DeleteFail{
-        @Test
-        @DisplayName("User_Not_Correct")
-        void fail_user_not_correct(){
-            Assertions.assertThrows(UserNotCorrectException.class,
-                    ()->commentService.deleteComment(comment1.getId(),new User()));
-        }
+    @DisplayName("해당 댓글이 이미 삭제된 경우")
+    class ParrentCommentNotExist {
 
         @Test
-        @DisplayName("Comment_Not_Found")
-        void fail_comment_not_found(){
+        @DisplayName("ParrentComment_Not_Exist")
+        void parrentComment_Not_Exist() {
+            System.out.println(comment1.getChildren().size()+"===================");
+
             Assertions.assertThrows(CommentNotFoundException.class,
-                    ()->commentService.deleteComment(comment1.getId()+100,user1));
+                    ()-> commentService.getRecommentList(comment1.getId()+100, 0, user1));
         }
     }
-
     @Nested
-    @DisplayName("Delete_Success")
-    class DeleteSuccess{
+    @DisplayName("조회 성공")
+    class SuccessGet {
         @Test
-        @DisplayName("Delete_Success")
-        void delete_success(){
-            ResponseEntity result = commentService.deleteComment(comment1.getId(),user1);
-
-            assertEquals(result,ResponseEntity.ok(true));
-            Assertions.assertThrows(CommentNotFoundException.class,
-                    ()->commentService.getCommentByCommentId(comment1.getId()));
-            Assertions.assertThrows(CommentNotFoundException.class,
-                    ()->commentService.getCommentByCommentId(3L));
+        void get_success() {
+            ResponseEntity<RecommentListResponseDto> result = commentService.getRecommentList(comment1.getId(), 0, user1);
+            assertEquals(result.getStatusCode(), HttpStatus.OK);
+            assertEquals(childComment.getContent(),
+                    result.getBody().getCommentList().get(0).getContent());
         }
+
     }
 }

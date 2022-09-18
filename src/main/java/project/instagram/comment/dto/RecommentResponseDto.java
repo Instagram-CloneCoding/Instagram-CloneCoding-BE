@@ -1,9 +1,10 @@
-package project.instagram.comment.service;
+package project.instagram.comment.dto;
 
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import project.instagram.common.util.Time;
 import project.instagram.domain.Comment;
 import project.instagram.domain.HeartComment;
 

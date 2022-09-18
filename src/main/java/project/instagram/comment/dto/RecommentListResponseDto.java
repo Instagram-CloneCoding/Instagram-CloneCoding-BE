@@ -1,4 +1,4 @@
-package project.instagram.comment.service;
+package project.instagram.comment.dto;
 
 import lombok.Getter;
 

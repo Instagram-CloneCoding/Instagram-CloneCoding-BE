@@ -1,4 +1,4 @@
-package project.instagram.comment.service;
+package project.instagram.common.util;
 
 import com.querydsl.core.types.dsl.DateTimePath;
 

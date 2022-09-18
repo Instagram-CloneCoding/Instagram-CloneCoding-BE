@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import project.instagram.comment.dto.CommentRequestDto;
+import project.instagram.comment.dto.RecommentListResponseDto;
+import project.instagram.comment.repository.CommentRepository;
 import project.instagram.domain.Comment;
 import project.instagram.domain.Post;
 import project.instagram.domain.User;
@@ -33,7 +35,9 @@ public class CommentService {
     public ResponseEntity registerComment(Long postId, CommentRequestDto commentRequestDto){
         Post post = postService.getPostByPostId(postId);
         if(!isContentExists(commentRequestDto)) throw new NoContentException("댓글을 입력해주세요.");
-        post.getComments().add(new Comment(commentRequestDto));
+        Comment comment = new Comment(commentRequestDto,post);
+        comment = commentRepository.save(comment);
+        post.getComments().add(comment);
 
         return ResponseEntity.ok(true);
     }
@@ -50,7 +54,7 @@ public class CommentService {
         return ResponseEntity.ok(true);
     }
 
-    public ResponseEntity<RecommentListResponseDto> getRecommentList(Long parrentCommentId,int page, User user){
+    public ResponseEntity<RecommentListResponseDto> getRecommentList(Long parrentCommentId, int page, User user){
         getCommentByCommentId(parrentCommentId);
         return ResponseEntity.ok(commentRepository.getRecommentList(parrentCommentId,page,user));
     }

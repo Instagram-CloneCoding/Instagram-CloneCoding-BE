@@ -1,4 +1,4 @@
-package project.instagram.comment.service;
+package project.instagram.comment.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import project.instagram.domain.Comment;

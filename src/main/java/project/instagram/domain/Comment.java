@@ -43,6 +43,11 @@ public class Comment extends TimeStamped{
         this.content = commentRequestDto.getContent();
     }
 
+    public Comment(CommentRequestDto commentRequestDto,Post post){
+        this.content = commentRequestDto.getContent();
+        this.post = post;
+    }
+
     public Comment(CommentRequestDto commentRequestDto,Comment parentComment){
         this.content = commentRequestDto.getContent();
         this.parent = parentComment;

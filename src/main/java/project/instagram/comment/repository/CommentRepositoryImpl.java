@@ -1,16 +1,13 @@
-package project.instagram.comment.service;
+package project.instagram.comment.repository;
 
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.hibernate.annotations.BatchSize;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.springframework.stereotype.Repository;
-import project.instagram.domain.Comment;
+import project.instagram.comment.dto.RecommentListResponseDto;
+import project.instagram.comment.dto.RecommentResponseDto;
 import project.instagram.domain.User;
 
 import java.util.List;
