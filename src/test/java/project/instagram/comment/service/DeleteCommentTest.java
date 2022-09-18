@@ -62,8 +62,8 @@ public class DeleteCommentTest {
             commentRequestDto = new CommentRequestDto().builder()
                     .content("안녕하세요" +i)
                     .build();
-            childComment = new Comment(commentRequestDto);
-            childComment = commentRepository.save(childComment);
+//            childComment = new Comment(commentRequestDto,comment1);
+//            childComment = commentRepository.save(childComment);
 
             commentService.registerRecomment(post1.getId(), comment1.getId(), commentRequestDto);
 
@@ -76,13 +76,15 @@ public class DeleteCommentTest {
         @Test
         @DisplayName("User_Not_Correct")
         void fail_user_not_correct(){
-            Assertions.assertThrows(UserNotCorrectException.class, ()->commentService.deleteComment());
+            Assertions.assertThrows(UserNotCorrectException.class,
+                    ()->commentService.deleteComment(comment1.getId(),new User()));
         }
 
         @Test
         @DisplayName("Comment_Not_Found")
         void fail_comment_not_found(){
-            Assertions.assertThrows(CommentNotFoundException.class, ()->commentService.deleteComment());
+            Assertions.assertThrows(CommentNotFoundException.class,
+                    ()->commentService.deleteComment(comment1.getId()+100,user1));
         }
     }
 
@@ -92,13 +94,13 @@ public class DeleteCommentTest {
         @Test
         @DisplayName("Delete_Success")
         void delete_success(){
-            ResponseEntity result = commentService.deleteComment();
+            ResponseEntity result = commentService.deleteComment(comment1.getId(),user1);
 
-            assertEquals(result.getStatusCode(),ResponseEntity.ok());
+            assertEquals(result,ResponseEntity.ok(true));
             Assertions.assertThrows(CommentNotFoundException.class,
                     ()->commentService.getCommentByCommentId(comment1.getId()));
             Assertions.assertThrows(CommentNotFoundException.class,
-                    ()->commentService.getCommentByCommentId(childComment.getId()));
+                    ()->commentService.getCommentByCommentId(3L));
         }
     }
 }

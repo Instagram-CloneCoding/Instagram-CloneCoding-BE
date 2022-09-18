@@ -1,6 +1,8 @@
 package project.instagram.domain;
 
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import project.instagram.comment.dto.CommentRequestDto;
 
 
@@ -34,7 +36,7 @@ public class Comment extends TimeStamped{
     @JoinColumn(name = "PARENT_ID")
     private Comment parent;
 
-    @OneToMany(mappedBy = "parent",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "parent",orphanRemoval = true,cascade = CascadeType.REMOVE)
     private List<Comment> children = new ArrayList<>();
 
     public Comment(CommentRequestDto commentRequestDto){

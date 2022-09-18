@@ -9,6 +9,7 @@ import project.instagram.domain.Post;
 import project.instagram.domain.User;
 import project.instagram.exception.customexception.CommentNotFoundException;
 import project.instagram.exception.customexception.NoContentException;
+import project.instagram.exception.customexception.UserNotCorrectException;
 import project.instagram.post.PostRepository;
 import project.instagram.post.PostService;
 
@@ -43,7 +44,9 @@ public class CommentService {
         Comment parentComment = getCommentByCommentId(parentCommentId);
         if(!isContentExists(commentRequestDto)) throw new NoContentException("댓글을 입력해주세요.");
         Comment childComment = new Comment(commentRequestDto,parentComment);
+        childComment=commentRepository.save(childComment);
         parentComment.getChildren().add(childComment);
+        System.out.println(childComment.getId());
         return ResponseEntity.ok(true);
     }
 
@@ -52,7 +55,11 @@ public class CommentService {
         return ResponseEntity.ok(commentRepository.getRecommentList(parrentCommentId,page,user));
     }
 
-    public ResponseEntity deleteComment(){
+    @Transactional
+    public ResponseEntity deleteComment(Long commentId,User user){
+        Comment comment = getCommentByCommentId(commentId);
+        if(!comment.getUser().equals(user)) throw new UserNotCorrectException("해당 댓글의 작성자가 아닙니다");
+        commentRepository.deleteCommentById(commentId);
         return ResponseEntity.ok(true);
     }
 
