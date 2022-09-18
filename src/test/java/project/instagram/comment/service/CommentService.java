@@ -44,7 +44,6 @@ public class CommentService {
         if(!isContentExists(commentRequestDto)) throw new NoContentException("댓글을 입력해주세요.");
         Comment childComment = new Comment(commentRequestDto,parentComment);
         parentComment.getChildren().add(childComment);
-        System.out.println(parentComment.getChildren().size());
         return ResponseEntity.ok(true);
     }
 
@@ -53,7 +52,11 @@ public class CommentService {
         return ResponseEntity.ok(commentRepository.getRecommentList(parrentCommentId,page,user));
     }
 
-    private Comment getCommentByCommentId(Long parentCommentId) {
+    public ResponseEntity deleteComment(){
+        return ResponseEntity.ok(true);
+    }
+
+    public Comment getCommentByCommentId(Long parentCommentId) {
         Optional<Comment> comment = commentRepository.findById(parentCommentId);
         if(!comment.isPresent()) throw new CommentNotFoundException();
         return comment.get();
