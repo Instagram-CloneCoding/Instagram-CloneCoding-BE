@@ -1,15 +1,15 @@
 package project.instagram.domain;
 
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class HeartComment {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "HEARTCOMMENT_ID")
@@ -22,4 +22,5 @@ public class HeartComment {
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "COMMENT_ID")
     private Comment comment;
+
 }

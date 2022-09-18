@@ -63,4 +63,10 @@ public class Comment extends TimeStamped{
         this.content = content;
         this.user = user;
     }
+
+    @Builder
+    public Comment(CommentRequestDto commentRequestDto, User user){
+        this.content = commentRequestDto.getContent();
+        this.user =user;
+    }
 }

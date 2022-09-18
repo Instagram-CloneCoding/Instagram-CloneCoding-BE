@@ -7,4 +7,5 @@ import project.instagram.domain.User;
 
 public interface HeartCommentRepository extends JpaRepository<HeartComment,Long> {
     boolean existsHeartCommentByCommentAndUser(Comment comment, User user);
+    void deleteHeartCommentByCommentAndUser(Comment comment, User user);
 }

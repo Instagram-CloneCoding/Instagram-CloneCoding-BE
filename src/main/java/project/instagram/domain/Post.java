@@ -27,7 +27,7 @@ public class Post extends TimeStamped{
     @OneToMany(mappedBy = "post")
     private List<HeartPost> heartPosts = new ArrayList<>();
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post",orphanRemoval = true,cascade = CascadeType.REMOVE)
     private List<Comment> comments = new ArrayList<>();
 
     @Builder

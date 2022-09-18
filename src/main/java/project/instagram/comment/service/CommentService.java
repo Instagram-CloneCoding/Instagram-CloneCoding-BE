@@ -32,10 +32,10 @@ public class CommentService {
     }
 
     @Transactional
-    public ResponseEntity registerComment(Long postId, CommentRequestDto commentRequestDto){
+    public ResponseEntity registerComment(Long postId, CommentRequestDto commentRequestDto,User user){
         Post post = postService.getPostByPostId(postId);
         if(!isContentExists(commentRequestDto)) throw new NoContentException("댓글을 입력해주세요.");
-        Comment comment = new Comment(commentRequestDto,post);
+        Comment comment = new Comment(commentRequestDto,user);
         comment = commentRepository.save(comment);
         post.getComments().add(comment);
 

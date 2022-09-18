@@ -8,6 +8,7 @@ import project.instagram.comment.dto.CommentRequestDto;
 import project.instagram.comment.repository.CommentRepository;
 import project.instagram.comment.service.CommentService;
 import project.instagram.domain.Post;
+import project.instagram.domain.User;
 import project.instagram.exception.customexception.NoContentException;
 import project.instagram.exception.customexception.PostNotFoundException;
 import project.instagram.post.PostRepository;
@@ -48,7 +49,7 @@ public class RegisterCommentTest {
             commentRequestDto = new CommentRequestDto().builder()
                     .content("안녕하세요")
                     .build();
-            Assertions.assertThrows(PostNotFoundException.class, () -> commentService.registerComment(postId, commentRequestDto));
+            Assertions.assertThrows(PostNotFoundException.class, () -> commentService.registerComment(postId, commentRequestDto,new User()));
         }
     }
 
@@ -60,11 +61,6 @@ public class RegisterCommentTest {
             post = postRepository.save(new Post());
         }
 
-        @AfterEach
-        void clear() {
-            postRepository.deleteAll();
-        }
-
         @DisplayName("No content")
         @Test
 //        @Transactional
@@ -73,7 +69,7 @@ public class RegisterCommentTest {
             commentRequestDto = new CommentRequestDto().builder()
                     .build();
             Assertions.assertThrows(NoContentException.class,
-                    () -> commentService.registerComment(post.getId(), commentRequestDto));
+                    () -> commentService.registerComment(post.getId(), commentRequestDto,new User()));
         }
 
         @DisplayName("register Success")
@@ -85,12 +81,12 @@ public class RegisterCommentTest {
                     .content("안녕하세요")
                     .build();
             //when
-            commentService.registerComment(post.getId(),commentRequestDto);
+            commentService.registerComment(post.getId(),commentRequestDto,new User());
 
             //then
             Post foundPost = postService.getPostByPostId(post.getId());
             assertEquals(ResponseEntity.ok(true),
-                    commentService.registerComment(post.getId(), commentRequestDto));
+                    commentService.registerComment(post.getId(), commentRequestDto,new User()));
             assertEquals(foundPost.getComments().get(0).getContent(), commentRequestDto.getContent());
         }
 
@@ -119,7 +115,7 @@ public class RegisterCommentTest {
                             "안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요" +
                             "안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요")
                     .build();
-            commentService.registerComment(post.getId(),commentRequestDto);
+            commentService.registerComment(post.getId(),commentRequestDto,new User());
         }
     }
 

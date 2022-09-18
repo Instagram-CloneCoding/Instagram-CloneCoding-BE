@@ -42,7 +42,7 @@ public class RegisterHeartCommentTest {
 
         CommentRequestDto commentRequestDto = new CommentRequestDto().builder()
                 .content("comment_content1").build();
-        commentService.registerComment(post.getId(),commentRequestDto);
+        commentService.registerComment(post.getId(),commentRequestDto,user);
         comment = postRepository.findById(post.getId()).get().getComments().get(0);
     }
 
@@ -55,7 +55,7 @@ public class RegisterHeartCommentTest {
         void fail_comment_not_found(){
             commentService.deleteComment(comment.getId(),user);
             Assertions.assertThrows(CommentNotFoundException.class,
-                    ()-> heartCommentService.registerHeartComment());
+                    ()-> heartCommentService.registerHeartComment(comment.getId(),user));
         }
 
         @DisplayName("PostDeleted")
@@ -63,7 +63,7 @@ public class RegisterHeartCommentTest {
         void fail_post_deleted(){
             postRepository.deleteById(post.getId());
             Assertions.assertThrows(CommentNotFoundException.class,
-                    ()-> heartCommentService.registerHeartComment());
+                    ()-> heartCommentService.registerHeartComment(comment.getId(),user));
         }
     }
     @Nested
@@ -72,7 +72,7 @@ public class RegisterHeartCommentTest {
         @DisplayName("Press HeartComment")
         @Test
         void success_press_heartComment(){
-            ResponseEntity result = heartCommentService.registerHeartComment();
+            ResponseEntity result = heartCommentService.registerHeartComment(comment.getId(),user);
             Assertions.assertEquals(result,ResponseEntity.ok(true));
             Assertions.assertEquals(true,heartCommentService.alreadyHeartCommentPressed(comment,user));
         }
@@ -80,7 +80,9 @@ public class RegisterHeartCommentTest {
         @DisplayName("Unpress HeartComment")
         @Test
         void success_unpress_heartComment(){
-            ResponseEntity result = heartCommentService.registerHeartComment();
+            heartCommentService.registerHeartComment(comment.getId(), user);
+
+            ResponseEntity result = heartCommentService.registerHeartComment(comment.getId(),user);
             Assertions.assertEquals(result,ResponseEntity.ok(false));
             Assertions.assertEquals(false,heartCommentService.alreadyHeartCommentPressed(comment,user));
         }
