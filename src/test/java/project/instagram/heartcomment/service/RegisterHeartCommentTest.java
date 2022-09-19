@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import project.instagram.comment.dto.CommentRequestDto;
 import project.instagram.comment.service.CommentService;
 import project.instagram.comment.service.UserRepository;
+import project.instagram.commentHeart.service.HeartCommentService;
 import project.instagram.domain.Comment;
 import project.instagram.domain.Post;
 import project.instagram.domain.User;

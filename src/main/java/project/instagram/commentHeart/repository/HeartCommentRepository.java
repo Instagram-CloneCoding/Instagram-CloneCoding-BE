@@ -1,4 +1,4 @@
-package project.instagram.heartcomment.service;
+package project.instagram.commentHeart.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import project.instagram.domain.Comment;

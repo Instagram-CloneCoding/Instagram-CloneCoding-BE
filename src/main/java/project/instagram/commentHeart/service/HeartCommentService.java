@@ -1,9 +1,10 @@
-package project.instagram.heartcomment.service;
+package project.instagram.commentHeart.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import project.instagram.comment.service.CommentService;
+import project.instagram.commentHeart.repository.HeartCommentRepository;
 import project.instagram.domain.Comment;
 import project.instagram.domain.HeartComment;
 import project.instagram.domain.User;
